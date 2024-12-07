@@ -1,15 +1,21 @@
-<img align="right" src="https://cdn.rawgit.com/tpolecat/doobie/series/0.5.x/doobie_logo.svg" height="150px" style="padding-left: 20px"/>
+This repository contains patches for [typelevel/doobie](https://github.com/typelevel/doobie )
 
-[![Discord](https://img.shields.io/discord/632277896739946517.svg?label=&logo=discord&logoColor=ffffff&color=404244&labelColor=6A7EC2)](https://discord.gg/7B4VfFTvsS)
-[![Join the chat at https://gitter.im/tpolecat/doobie](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/tpolecat/doobie?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Maven Central](https://img.shields.io/maven-central/v/org.tpolecat/doobie-core_2.12.svg)](https://maven-badges.herokuapp.com/maven-central/org.tpolecat/doobie-core_2.13)
-[![Javadocs](https://javadoc.io/badge/org.tpolecat/doobie-core_2.13.svg)](https://javadoc.io/doc/org.tpolecat/doobie-core_2.13)
+# `pos-line-0` branch
 
-**doobie** is a pure functional JDBC layer for Scala.
+Modified not to auto-generate the line number, always setting it to be 0.
 
-Please proceed to the [**microsite**](https://tpolecat.github.io/doobie/) for more information.
+1. Background
+    1. Doobie macro generates `Pos` object to hold the source position of the sql strings, for diagnostics purpose.
 
-## Reporting a bug or need help?
+1. Use cases
+    1. A crude way to check if a refactoring changes the logic is to compare the compiled class files.
+        1. Even with compile flag `-g:none` that strips the debug information,
+           the class file might still change because of the generated `Pos`.
+            1. This branch avoids that.
 
-Use [doobie_quick_start](https://github.com/jatcwang/doobie_quick_start)
-which should make it easy to reproduce your issue!
+1. How to use
+    1. Cross build with sbt
+
+           + free/packageBin
+
+    1. Copy a jar file in `modules/free/target` to `unmanagedBase` (`lib` directory) of the target project.

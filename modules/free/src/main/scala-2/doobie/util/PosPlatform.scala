@@ -21,7 +21,7 @@ object PosPlatform {
     import c.universe._
     def instance_impl: Tree = {
       val file = c.enclosingPosition.source.path
-      val line = c.enclosingPosition.line
+      val line = 0 // c.enclosingPosition.line
       q"_root_.doobie.util.pos.Pos($file, $line)"
     }
   }
